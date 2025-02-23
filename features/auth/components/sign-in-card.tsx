@@ -103,7 +103,7 @@ const SignInCard = () => {
 
       <CardContent className="flex flex-col gap-4 md:gap-2 md:flex-row items-center mt-4 px-7">
         <Button
-          variant="outline"
+          variant="secondary"
           className="w-full text-sm h-10"
           disabled={isPending}
         >
@@ -111,7 +111,7 @@ const SignInCard = () => {
           Login with Google
         </Button>
         <Button
-          variant="outline"
+          variant="secondary"
           className="w-full text-sm h-10"
           disabled={isPending}
         >

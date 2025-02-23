@@ -18,9 +18,10 @@ import {
 import Link from "next/link";
 import { RegisterSchema, RegisterSchemaType } from "../schemas";
 import { useRegister } from "../api/use-register";
+import { cn } from "@/lib/utils";
 
 const SignUpCard = () => {
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -97,7 +98,11 @@ const SignUpCard = () => {
               )}
             />
 
-            <Button size="lg" className="w-full !mt-8">
+            <Button
+              size="lg"
+              className={cn("w-full !mt-8", isPending && "cursor-not-allowed")}
+              disabled={isPending}
+            >
               Signup
             </Button>
           </form>
@@ -109,11 +114,19 @@ const SignUpCard = () => {
         <Separator className="w-[130px] mx-auto" />
       </div>
       <CardContent className="flex items-center gap-2 my-4">
-        <Button variant="outline" className="w-full text-sm">
+        <Button
+          variant="outline"
+          className="w-full text-sm"
+          disabled={isPending}
+        >
           <FcGoogle />
           Login with Google
         </Button>
-        <Button variant="outline" className="w-full text-sm">
+        <Button
+          variant="outline"
+          className="w-full text-sm"
+          disabled={isPending}
+        >
           <FaGithub />
           Login with Github
         </Button>
