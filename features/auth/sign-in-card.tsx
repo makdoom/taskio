@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { LoginSchema, LoginSchemaType } from "./schemas";
+import { useLogin } from "./api/use-login";
 
 const SignInCard = () => {
+  const { mutate } = useLogin();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -28,6 +30,7 @@ const SignInCard = () => {
 
   const onSubmit = (values: LoginSchemaType) => {
     console.log(values);
+    mutate({ json: values });
   };
 
   return (
@@ -84,18 +87,18 @@ const SignInCard = () => {
         </Form>
       </CardContent>
 
-      <div className="flex items-center">
-        <Separator className="w-[130px] mx-auto" />
+      <div className="flex items-center justify-center">
+        <Separator className="w-[70px] sm:w-[150px] mx-auto" />
         <span className="text-sm font-semibold">OR</span>
-        <Separator className="w-[130px] mx-auto" />
+        <Separator className="w-[70px] sm:w-[150px] mx-auto" />
       </div>
 
-      <CardContent className="flex items-center gap-2 mt-4">
-        <Button variant="outline" className="w-full text-sm">
+      <CardContent className="flex flex-col gap-4 md:gap-2 md:flex-row items-center mt-4 px-7">
+        <Button variant="outline" className="w-full text-sm h-10">
           <FcGoogle />
           Login with Google
         </Button>
-        <Button variant="outline" className="w-full text-sm">
+        <Button variant="outline" className="w-full text-sm h-10">
           <FaGithub />
           Login with Github
         </Button>
