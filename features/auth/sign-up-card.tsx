@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,21 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-
-const formSchema = z.object({
-  name: z.string().trim().min(1, "Name is required"),
-  email: z.string().trim().min(1, "Email address is required").email(),
-  password: z
-    .string()
-    .trim()
-    .min(1, "Password must be atleast 8 charachters long"),
-});
-
-type FormSchemaType = z.infer<typeof formSchema>;
+import { RegisterSchema, RegisterSchemaType } from "./schemas";
 
 const SignUpCard = () => {
-  const form = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<RegisterSchemaType>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -37,7 +26,7 @@ const SignUpCard = () => {
     },
   });
 
-  const onSubmit = (values: FormSchemaType) => {
+  const onSubmit = (values: RegisterSchemaType) => {
     console.log(values);
   };
 
