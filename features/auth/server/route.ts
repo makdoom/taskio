@@ -6,8 +6,13 @@ import { deleteCookie, setCookie } from "hono/cookie";
 
 import { LoginSchema, RegisterSchema } from "../schemas";
 import { AUTH_COOKIE } from "../constants";
+import { sessionMiddleware } from "@/lib/session-middleware";
 
 const app = new Hono()
+  .get("/current-user", sessionMiddleware, (c) => {
+    const user = c.get("user");
+    return c.json({ success: true, data: user });
+  })
   .post("/login", zValidator("json", LoginSchema), async (c) => {
     const { email, password } = c.req.valid("json");
 
@@ -39,7 +44,10 @@ const app = new Hono()
     });
     return c.json({ sucess: true });
   })
-  .post("/logout", async (c) => {
+  .post("/logout", sessionMiddleware, async (c) => {
+    const account = c.get("account");
+    await account.deleteSession("current");
+
     deleteCookie(c, AUTH_COOKIE);
     return c.json({ success: 1 });
   });
