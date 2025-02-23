@@ -15,24 +15,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-
-const formSchema = z.object({
-  email: z.string().trim().min(1, "Email address is required").email(),
-  password: z.string().trim().min(1, "Password is required"),
-});
-
-type FormSchemaType = z.infer<typeof formSchema>;
+import { LoginSchema, LoginSchemaType } from "./schemas";
 
 const SignInCard = () => {
-  const form = useForm<FormSchemaType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoginSchemaType>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: FormSchemaType) => {
+  const onSubmit = (values: LoginSchemaType) => {
     console.log(values);
   };
 
