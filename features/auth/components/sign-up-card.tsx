@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,8 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { RegisterSchema, RegisterSchemaType } from "./schemas";
-import { useRegister } from "./api/use-register";
+import { RegisterSchema, RegisterSchemaType } from "../schemas";
+import { useRegister } from "../api/use-register";
 
 const SignUpCard = () => {
   const { mutate } = useRegister();

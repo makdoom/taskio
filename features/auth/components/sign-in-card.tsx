@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,11 +16,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import { LoginSchema, LoginSchemaType } from "./schemas";
-import { useLogin } from "./api/use-login";
+import { LoginSchema, LoginSchemaType } from "../schemas";
+import { useLogin } from "../api/use-login";
+import { Loader } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const SignInCard = () => {
-  const { mutate } = useLogin();
+  const { mutate, isPending } = useLogin();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -79,7 +83,12 @@ const SignInCard = () => {
               )}
             />
 
-            <Button size="lg" className="w-full !mt-8">
+            <Button
+              size="lg"
+              className={cn("w-full !mt-8", isPending && "cursor-not-allowed")}
+              disabled={isPending}
+            >
+              {isPending && <Loader className="animate-spin" />}
               Login
             </Button>
           </form>
@@ -93,11 +102,19 @@ const SignInCard = () => {
       </div>
 
       <CardContent className="flex flex-col gap-4 md:gap-2 md:flex-row items-center mt-4 px-7">
-        <Button variant="outline" className="w-full text-sm h-10">
+        <Button
+          variant="outline"
+          className="w-full text-sm h-10"
+          disabled={isPending}
+        >
           <FcGoogle />
           Login with Google
         </Button>
-        <Button variant="outline" className="w-full text-sm h-10">
+        <Button
+          variant="outline"
+          className="w-full text-sm h-10"
+          disabled={isPending}
+        >
           <FaGithub />
           Login with Github
         </Button>
