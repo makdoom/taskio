@@ -16,7 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useCreateWorkspace } from "../api/use-create-workspace";
-import { Loader } from "lucide-react";
+import { Divide, ImageIcon, Loader } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Image from "next/image";
+import { ChangeEvent, useRef } from "react";
+import { MAX_FILE_SIZE } from "../constants";
+import { toast } from "sonner";
 
 type CreateWorkspaceFormPropType = {
   onCancel?: () => void;
@@ -25,6 +30,7 @@ type CreateWorkspaceFormPropType = {
 const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
   const { mutate, isPending } = useCreateWorkspace();
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const form = useForm<WorkspaceSchemaType>({
     resolver: zodResolver(WorkspaceSchema),
     defaultValues: {
@@ -32,9 +38,21 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
     },
   });
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file?.size > MAX_FILE_SIZE)
+      return toast.error(
+        "File size exceeds the allowed limit. Please upload a file smaller than 1 MB."
+      );
+    if (e.target.files?.length) form.setValue("imageURL", e.target.files[0]);
+  };
+
   const onSubmit = (values: WorkspaceSchemaType) => {
-    console.log(values);
-    mutate({ json: values });
+    const finalValues = {
+      ...values,
+      imageURL: values.imageURL instanceof File ? values?.imageURL : "",
+    };
+    mutate({ form: finalValues });
   };
 
   return (
@@ -65,6 +83,64 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
                   </FormControl>
                   <FormMessage />
                 </FormItem>
+              )}
+            />
+
+            <FormField
+              name="imageURL"
+              control={form.control}
+              render={({ field }) => (
+                <div className="flex flex-col gap-y-2">
+                  <div className="flex items-center gap-x-5">
+                    {field.value ? (
+                      <div className="size-[72px] relative overflow-hidden rounded-md">
+                        <Image
+                          alt="worspace-logo"
+                          fill
+                          className="object-cover size-[72px]"
+                          src={
+                            field.value instanceof File
+                              ? URL.createObjectURL(field.value)
+                              : field.value
+                          }
+                        />
+                      </div>
+                    ) : (
+                      <Avatar className="size-[72px]">
+                        <AvatarFallback>
+                          <ImageIcon className="size-[30px] text-neutral-400" />
+                        </AvatarFallback>
+                      </Avatar>
+                    )}
+
+                    <div className="flex flex-col gap-y-1">
+                      <p className="font-medium text-sm">Workspace Icon</p>
+                      <span className="text-muted-foreground text-sm">
+                        JPG, PNG, JPEG or SVG, (File Size: max. 1MB)
+                      </span>
+
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept=".jpg, .jpeg, .png, .svg"
+                        ref={inputRef}
+                        disabled={isPending}
+                        onChange={handleImageChange}
+                      />
+
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        disabled={isPending}
+                        size="sm"
+                        className="w-fit mt-2 font-medium"
+                        onClick={() => inputRef.current?.click()}
+                      >
+                        Upload Image
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               )}
             />
 
