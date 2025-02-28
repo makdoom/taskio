@@ -9,6 +9,7 @@ import {
 } from "react-icons/io5";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { cn } from "@/lib/utils";
+import { LayoutList } from "lucide-react";
 
 const routes = [
   {
@@ -20,8 +21,8 @@ const routes = [
   {
     label: "My Task",
     href: "/task",
-    icon: IoListCircleOutline,
-    activeIcon: IoListCircle,
+    icon: LayoutList,
+    activeIcon: LayoutList,
   },
   {
     label: "Members",
@@ -48,11 +49,11 @@ const Navigation = () => {
           <Link key={item.href} href={item.href}>
             <div
               className={cn(
-                "flex group items-center gap-2 p-2.5 rounded-md  font-medium hover:text-primary transition text-neutral-500 hover:bg-white",
+                "flex group items-center gap-2 p-2.5 rounded-md  font-medium hover:text-primary transition text-neutral-700 hover:bg-white",
                 isActive && "bg-white hover:opacity-100 shadow-sm text-primary"
               )}
             >
-              <Icon className="size-5 group-hover:text-primary text-neutral-500" />
+              <Icon className="size-4 group-hover:text-primary text-neutral-700" />
               <span className="text-sm">{item.label}</span>
             </div>
           </Link>

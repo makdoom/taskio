@@ -11,22 +11,29 @@ import {
   SelectValue,
 } from "./ui/select";
 import WorkspacesAvatar from "@/features/workspaces/components/workspaces-avatar";
+import { useRouter } from "next/navigation";
+import useWorkspaceId from "@/features/workspaces/hooks/use-workspace-id";
 
 const WorkspaceSwitcher = () => {
+  const workspaceId = useWorkspaceId();
+  const router = useRouter();
   const { data: workspaces } = useGetWorkspaces();
 
-  console.log(workspaces);
+  const onValueChange = (id: string) => {
+    router.push(`/workspaces/${id}`);
+  };
+
   return (
     <div className="w-full flex flex-col gap-y-2 my-4">
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium">Workspaces</p>
-        <Button variant="outline" size="icon" className="size-7">
-          <Plus className="size-4" />
+        <p className="text-xs font-medium text-neutral-600">Workspaces</p>
+        <Button variant="outline" size="icon" className="size-6">
+          <Plus className="size-1" />
         </Button>
       </div>
 
-      <Select>
-        <SelectTrigger className="bg-white p-2 h-12">
+      <Select value={workspaceId} onValueChange={onValueChange}>
+        <SelectTrigger className="bg-white p-1.5 h-12">
           <SelectValue placeholder="No workspace selected" />
         </SelectTrigger>
 
@@ -42,7 +49,7 @@ const WorkspaceSwitcher = () => {
                   name={workspace.name}
                   image={workspace.imageURL}
                 />
-                <span className="capitalize text-sm text-neutral-700">
+                <span className="capitalize text-sm text-neutral-700 truncate">
                   {workspace.name}
                 </span>
               </div>

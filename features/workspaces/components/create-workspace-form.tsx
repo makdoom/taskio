@@ -52,7 +52,14 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
       ...values,
       imageURL: values.imageURL instanceof File ? values?.imageURL : "",
     };
-    mutate({ form: finalValues });
+    mutate(
+      { form: finalValues },
+      {
+        onSuccess: () => {
+          form.resetField("name");
+        },
+      }
+    );
   };
 
   return (
