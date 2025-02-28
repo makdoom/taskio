@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Navigation from "./navigation";
+import WorkspaceSwitcher from "./WorkspaceSwitcher";
 
 const Sidebar = () => {
   return (
@@ -10,6 +11,8 @@ const Sidebar = () => {
       >
         Taskio
       </Link>
+
+      <WorkspaceSwitcher />
 
       <Navigation />
     </div>

@@ -2,7 +2,7 @@
 
 import { Loader, LogOut } from "lucide-react";
 import { useLogout } from "../api/use-logout";
-import { useCurrentUser } from "../api/user-current-user";
+import { useCurrentUser } from "../api/use-current-user";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,

@@ -39,7 +39,7 @@ const routes = [
 
 const Navigation = () => {
   return (
-    <ul className="flex flex-col my-8">
+    <ul className="flex flex-col my-4">
       {routes.map((item) => {
         const isActive = false;
         const Icon = isActive ? item.activeIcon : item.icon;
@@ -53,7 +53,7 @@ const Navigation = () => {
               )}
             >
               <Icon className="size-5 group-hover:text-primary text-neutral-500" />
-              {item.label}
+              <span className="text-sm">{item.label}</span>
             </div>
           </Link>
         );
