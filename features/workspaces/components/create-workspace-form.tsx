@@ -22,12 +22,14 @@ import Image from "next/image";
 import { ChangeEvent, useRef } from "react";
 import { MAX_FILE_SIZE } from "../constants";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type CreateWorkspaceFormPropType = {
   onCancel?: () => void;
 };
 
 const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
+  const router = useRouter();
   const { mutate, isPending } = useCreateWorkspace();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,8 +57,9 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
     mutate(
       { form: finalValues },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }) => {
           form.resetField("name");
+          router.push(`/workspaces/${data.$id}`);
         },
       }
     );
@@ -72,7 +75,7 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
 
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               name="name"
               control={form.control}
@@ -151,7 +154,7 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
               )}
             />
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between !mt-10">
               <Button
                 type="button"
                 variant="secondary"

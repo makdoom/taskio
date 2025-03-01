@@ -55,7 +55,7 @@ const app = new Hono()
           STORAGE_BUCKET_ID,
           file.$id
         );
-        uploadedFileURL = `data:image/png;base64${Buffer.from(
+        uploadedFileURL = `data:image/png;base64,${Buffer.from(
           arrayBuffer
         ).toString("base64")}`;
       }

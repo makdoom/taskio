@@ -13,9 +13,11 @@ import {
 import WorkspacesAvatar from "@/features/workspaces/components/workspaces-avatar";
 import { useRouter } from "next/navigation";
 import useWorkspaceId from "@/features/workspaces/hooks/use-workspace-id";
+import useCreateWorkspaceModal from "@/features/workspaces/hooks/use-create-worksapce-modal";
 
 const WorkspaceSwitcher = () => {
   const workspaceId = useWorkspaceId();
+  const { setIsOpen } = useCreateWorkspaceModal();
   const router = useRouter();
   const { data: workspaces } = useGetWorkspaces();
 
@@ -27,7 +29,12 @@ const WorkspaceSwitcher = () => {
     <div className="w-full flex flex-col gap-y-2 my-4">
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium text-neutral-600">Workspaces</p>
-        <Button variant="outline" size="icon" className="size-6">
+        <Button
+          variant="outline"
+          size="icon"
+          className="size-6"
+          onClick={() => setIsOpen(true)}
+        >
           <Plus className="size-1" />
         </Button>
       </div>

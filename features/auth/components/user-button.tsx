@@ -15,6 +15,13 @@ const UserButton = () => {
   const { data: user, isLoading } = useCurrentUser();
   const { mutate } = useLogout();
 
+  if (!user) return null;
+
+  const { name, email } = user;
+  const avatarFallback = name
+    ? name.charAt(0).toUpperCase()
+    : email.charAt(0).toUpperCase() ?? "U";
+
   if (isLoading) {
     return (
       <div className="size-10 rounded-full flex items-center justify-center bg-neutral-200 border border-neutral-300">
@@ -22,13 +29,6 @@ const UserButton = () => {
       </div>
     );
   }
-
-  if (!user) return null;
-
-  const { name, email } = user;
-  const avatarFallback = name
-    ? name.charAt(0).toUpperCase()
-    : email.charAt(0).toUpperCase() ?? "U";
 
   return (
     <DropdownMenu modal={false}>
