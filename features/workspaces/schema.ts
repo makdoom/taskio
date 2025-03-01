@@ -10,4 +10,9 @@ export const WorkspaceSchema = z.object({
     .optional(),
 });
 
+export const UpdateWorkspaceSchema = WorkspaceSchema.extend({
+  name: z.string().trim().min(1, "Workspace name is required").optional(),
+});
+
 export type WorkspaceSchemaType = z.infer<typeof WorkspaceSchema>;
+export type UpdateWorkspaceSchemaType = z.infer<typeof UpdateWorkspaceSchema>;

@@ -8,9 +8,10 @@ import {
   WORKSPACE_ID,
 } from "@/config";
 import { ID, Query } from "node-appwrite";
-import { WorkspaceSchema } from "../schema";
+import { UpdateWorkspaceSchema, WorkspaceSchema } from "../schema";
 import { MemberRole } from "@/features/member/types";
 import { generateInviteCode } from "@/lib/utils";
+import { getMember } from "@/features/member/utils";
 
 const app = new Hono()
   .get("/", sessionMiddleware, async (c) => {
@@ -79,6 +80,57 @@ const app = new Hono()
       });
 
       return c.json({ success: 1, data: createdWorkspace });
+    }
+  )
+  .patch(
+    "/:workspaceId",
+    sessionMiddleware,
+    zValidator("form", UpdateWorkspaceSchema),
+    async (c) => {
+      const databases = c.get("databases");
+      const storage = c.get("storage");
+      const user = c.get("user");
+
+      const { workspaceId } = c.req.param();
+      const { name, imageURL } = c.req.valid("form");
+
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
+
+      if (!member || member.role !== MemberRole.ADMIN)
+        return c.json({ success: 0, error: "Unauthorized" }, 401);
+
+      let uploadedFileURL: string | undefined;
+
+      if (imageURL instanceof File) {
+        const file = await storage.createFile(
+          STORAGE_BUCKET_ID,
+          ID.unique(),
+          imageURL
+        );
+
+        const arrayBuffer = await storage.getFilePreview(
+          STORAGE_BUCKET_ID,
+          file.$id
+        );
+        uploadedFileURL = `data:image/png;base64,${Buffer.from(
+          arrayBuffer
+        ).toString("base64")}`;
+      } else {
+        uploadedFileURL = imageURL;
+      }
+
+      const updatedWorkspace = await databases.updateDocument(
+        DATABASE_ID,
+        WORKSPACE_ID,
+        workspaceId,
+        { name, imageURL: uploadedFileURL }
+      );
+
+      return c.json({ success: 1, data: updatedWorkspace });
     }
   );
 
