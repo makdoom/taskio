@@ -132,8 +132,8 @@ const EditWorkspaceForm = ({
                         />
                       </div>
                     ) : (
-                      <Avatar className="size-[72px]">
-                        <AvatarFallback>
+                      <Avatar className="size-[72px] rounded-md">
+                        <AvatarFallback className="rounded-md">
                           <ImageIcon className="size-[30px] text-neutral-400" />
                         </AvatarFallback>
                       </Avatar>
@@ -154,16 +154,28 @@ const EditWorkspaceForm = ({
                         onChange={handleImageChange}
                       />
 
-                      <Button
-                        type="button"
-                        variant="secondary"
-                        disabled={isPending}
-                        size="sm"
-                        className="w-fit mt-2 font-medium"
-                        onClick={() => inputRef.current?.click()}
-                      >
-                        Upload Image
-                      </Button>
+                      {field.value ? (
+                        <Button
+                          variant="destructive"
+                          className="w-fit mt-2 font-medium"
+                          disabled={isPending}
+                          size="sm"
+                          onClick={() => form.setValue("imageURL", "")}
+                        >
+                          Remove
+                        </Button>
+                      ) : (
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          disabled={isPending}
+                          size="sm"
+                          className="w-fit mt-2 font-medium"
+                          onClick={() => inputRef.current?.click()}
+                        >
+                          Upload Image
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>
