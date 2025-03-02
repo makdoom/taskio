@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
@@ -12,5 +14,4 @@ export const GET = handle(app);
 export const POST = handle(app);
 export const PATCH = handle(app);
 
-// @ts-ignore
 export type AppType = typeof routes;
