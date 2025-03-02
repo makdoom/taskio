@@ -1,5 +1,5 @@
-import { getCurrentUser } from "@/features/auth/actions";
-import { getSingleWorkspace } from "@/features/workspaces/actions";
+import { getCurrentUser } from "@/features/auth/queries";
+import { getSingleWorkspace } from "@/features/workspaces/queries";
 import EditWorkspaceForm from "@/features/workspaces/components/edit-workspace-form";
 import { redirect } from "next/navigation";
 

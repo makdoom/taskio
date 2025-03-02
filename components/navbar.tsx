@@ -1,6 +1,6 @@
 import UserButton from "@/features/auth/components/user-button";
 import MobileSidebar from "./mobile-sidebar";
-import { getCurrentUser } from "@/features/auth/actions";
+import { getCurrentUser } from "@/features/auth/queries";
 import { redirect } from "next/navigation";
 
 const Navbar = async () => {

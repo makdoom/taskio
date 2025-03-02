@@ -103,11 +103,11 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
                 <div className="flex flex-col gap-y-2">
                   <div className="flex items-center gap-x-5">
                     {field.value ? (
-                      <div className="size-[72px] relative overflow-hidden rounded-md">
+                      <div className="size-[85px] relative overflow-hidden rounded-md">
                         <Image
                           alt="worspace-logo"
                           fill
-                          className="object-cover size-[72px]"
+                          className="object-cover w-full h-full"
                           src={
                             field.value instanceof File
                               ? URL.createObjectURL(field.value)
@@ -116,7 +116,7 @@ const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormPropType) => {
                         />
                       </div>
                     ) : (
-                      <Avatar className="size-[72px] rounded-md">
+                      <Avatar className="size-[85px] rounded-md">
                         <AvatarFallback className="rounded-md">
                           <ImageIcon className="size-[30px] text-neutral-400" />
                         </AvatarFallback>
