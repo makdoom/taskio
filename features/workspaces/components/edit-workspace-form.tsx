@@ -77,6 +77,7 @@ const EditWorkspaceForm = ({
         <Button
           variant="ghost"
           size="sm"
+          className="pl-0"
           onClick={
             onCancel
               ? onCancel
@@ -86,7 +87,9 @@ const EditWorkspaceForm = ({
           <MoveLeft className="size-4" />
           <span>Back</span>
         </Button>
-        <CardTitle className="text-xl font-bold">Update workspace</CardTitle>
+        <CardTitle className="text-xl font-semibold">
+          Update workspace
+        </CardTitle>
       </CardHeader>
 
       <CardContent>
