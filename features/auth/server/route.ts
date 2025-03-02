@@ -16,11 +16,9 @@ const app = new Hono()
   .post("/login", zValidator("json", LoginSchema), async (c) => {
     const { email, password } = c.req.valid("json");
 
-    console.log({ email, password });
     const { account } = await createAdminClient();
     const session = await account.createEmailPasswordSession(email, password);
 
-    console.log({ session });
     setCookie(c, AUTH_COOKIE, session.secret, {
       path: "/",
       httpOnly: true,
@@ -29,7 +27,6 @@ const app = new Hono()
       maxAge: 60 * 60 * 24 * 30,
     });
 
-    console.log("Cookie set");
     return c.json({ sucess: true });
   })
   .post("/register", zValidator("json", RegisterSchema), async (c) => {
