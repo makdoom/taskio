@@ -1,15 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import { FiUsers } from "react-icons/fi";
 
-import {
-  IoSettings,
-  IoSettingsOutline,
-  IoListCircleOutline,
-  IoListCircle,
-} from "react-icons/io5";
+import { IoSettings, IoSettingsOutline } from "react-icons/io5";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { cn } from "@/lib/utils";
 import { LayoutList } from "lucide-react";
+import useWorkspaceId from "@/features/workspaces/hooks/use-workspace-id";
+import { usePathname } from "next/navigation";
 
 const routes = [
   {
@@ -39,21 +38,31 @@ const routes = [
 ];
 
 const Navigation = () => {
+  const workspaceId = useWorkspaceId();
+  const pathname = usePathname();
+
   return (
-    <ul className="flex flex-col my-4">
+    <ul className="flex flex-col my-4 gap-y-2">
       {routes.map((item) => {
-        const isActive = false;
+        const fullPath = `/workspaces/${workspaceId}${item.href}`;
+        const isActive = pathname == fullPath;
         const Icon = isActive ? item.activeIcon : item.icon;
 
         return (
-          <Link key={item.href} href={item.href}>
+          <Link key={fullPath} href={fullPath}>
             <div
               className={cn(
-                "flex group items-center gap-2 p-2.5 rounded-md  font-medium hover:text-primary transition text-neutral-700 hover:bg-white",
-                isActive && "bg-white hover:opacity-100 shadow-sm text-primary"
+                "flex group items-center gap-2 p-2.5 rounded-md  hover:text-primary transition text-neutral-700 hover:bg-white",
+                isActive &&
+                  "bg-primary hover:opacity-100 shadow-sm text-white font-semibold"
               )}
             >
-              <Icon className="size-4 group-hover:text-primary text-neutral-700" />
+              <Icon
+                className={cn(
+                  "size-4 group-hover:text-primary text-neutral-700",
+                  isActive && "text-white"
+                )}
+              />
               <span className="text-sm">{item.label}</span>
             </div>
           </Link>
