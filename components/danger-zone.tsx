@@ -32,7 +32,7 @@ const DangerZone = () => {
       <DeleteDialog />
       <CardContent className="p-7">
         <div className="flex flex-col">
-          <h3 className="text-lg font-semibold">Danger Zone</h3>
+          <h3 className=" font-semibold">Danger Zone</h3>
           <p className="text-muted-foreground text-sm">
             Deleting a workspace is irreversible and will remove all associated
             data
