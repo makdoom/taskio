@@ -4,9 +4,9 @@ import EditWorkspaceForm from "@/features/workspaces/components/edit-workspace-f
 import { redirect } from "next/navigation";
 
 type WorkspaceSettingIdPageProp = {
-  params: {
+  params: Promise<{
     workspaceId: string;
-  };
+  }>;
 };
 
 const WorkspaceIdSettingPage = async ({
